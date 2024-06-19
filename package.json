@@ -1,0 +1,27 @@
+{
+  "name": "progetto-nodejs-roberta-ciresa",
+  "version": "1.0.0",
+  "description": "Progetto Nodejs Express e Mongodb per start2impact",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Roberta Ciresa",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.4.1",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "sinon": "^18.0.0",
+    "supertest": "^7.0.0"
+  }
+}
