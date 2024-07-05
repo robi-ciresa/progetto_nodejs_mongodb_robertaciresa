@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
-    url: {
-        type: String,
-        required: true
-    },
+    data: Buffer,
+    contentType: String,
     description: {
         type: String,
         default: ''

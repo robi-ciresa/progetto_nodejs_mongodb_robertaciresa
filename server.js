@@ -1,43 +1,33 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const methodOverride = require('method-override');
-const path = require('path');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
-dotenv.config();
+const usersRoutes = require('./routes/usersRoutes');
+const articlesRoutes = require('./routes/articlesRoutes');
+const ordersRoutes = require('./routes/ordersRoutes');
 
 const app = express();
-const routes = require('./routes/allroutes');
-const jsonRoutes = require('./controllers/jsonController');
+const port = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;
-const DB_URL = process.env.DB_URL;
-
-// Connessione al database
-mongoose.connect(DB_URL).then(() => {
-    console.log('Connected to MongoDB Atlas');
-}).catch(err => {
-    console.error('Error connecting to MongoDB Atlas:', err.message);
-});
-
-// Middleware
-app.use(methodOverride('_method'));
-app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware per il parsing del body delle richieste
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Configurazione del motore di template EJS
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// Utilizzo delle rotte
+app.use('/users', usersRoutes);
+app.use('/articles', articlesRoutes);
+app.use('/orders', ordersRoutes);
 
-// Definizione delle rotte
-app.use('/', routes);
-app.use('/json', jsonRoutes);
+if (process.env.NODE_ENV !== 'test') {
+    const mongoose = require('mongoose');
+    const MONGODB_URI = process.env.MONGODB_URI;
 
-// Avvio del server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    mongoose.connect(MONGODB_URI)
+        .then(() => console.log('Connected to MongoDB'))
+        .catch(err => console.error('Could not connect to MongoDB', err));
+    
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
 
 module.exports = app;
